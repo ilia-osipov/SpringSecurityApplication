@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список товаров</title>
+</head>
+<body>
+<h1>Личный кабинет</h1>
+<form method="post" action="/logout">
+
+    <button type="submit">Выйти из личного кабинета</button>
+</form>
+<br>
+<form method="get" th:action="@{/cart}">
+
+    <button type="submit">Перейти в корзину</button>
+</form>
+<form method="get" th:action="@{/orders}">
+    <input type="submit" value="Заказы">
+</form>
+<br>
+<h3>Сортировка, поиск, фильтрация: </h3>
+<form th:method="post" th:action="@{/person_account/product/search}">
+    <fieldset>
+        <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
+        <label for="search">Поиск по наименованию</label>
+        <input type="text" id="search" name="search" th:value="*{value_search}">
+        <br>
+        <p>Цена, руб.</p>
+        <label for="ot">От</label>
+        <input type="text" name="ot" id="ot" th:value="*{value_price_ot}">
+        <label for="do">До</label>
+        <input type="text" name="do" id="do" th:value="*{value_price_do}">
+        <br>
+        <div>
+            <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
+            <label for="ascending_price">Отсортировать по возрастанию цены</label>
+            <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
+            <label for="descending_price">Отсортировать по убыванию цены</label>
+            <p>Категория товаров:</p>
+            <input type="radio" id="furniture" name="contract" value="furniture">
+            <label for="furniture">Мебель</label>
+            <br>
+            <input type="radio" id="closes" name="contract" value="closes">
+            <label for="closes">Одежда</label>
+            <br>
+            <input type="radio" id="electronics" name="contract" value="electronics">
+            <label for="electronics">Электроника</label>
+            <br>
+            <input type="radio" id="shoes" name="contract" value="shoes">
+            <label for="shoes">Обувь</label>
+            <br>
+            <input type="radio" id="sport" name="contract" value="sport">
+            <label for="sport">Спортивные товары</label>
+            <br>
+            <input type="radio" id="diy" name="contract" value="diy">
+            <label for="diy">Строительство и ремонт</label>
+            <br>
+            <input type="radio" id="pet" name="contract" value="pet">
+            <label for="pet">Товары для животных</label>
+            <br>
+            <input type="radio" id="games" name="contract" value="games">
+            <label for="games">Игры</label>
+            <br>
+            <input type="radio" id="antiq" name="contract" value="antiq">
+            <label for="antiq">Антиквариат</label>
+            <br>
+            <input type="radio" id="tourism" name="contract" value="tourism">
+            <label for="tourism">Туризм</label>
+            <br>
+
+
+
+            <input type="submit" value="Найти">
+
+
+
+
+
+        </div>
+    </fieldset>
+
+</form>
+<hr>
+<h3>Результат поиска:</h3>
+<div th:each="product : ${search_product}">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+    <br>
+    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <br>
+    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <hr>
+
+</div>
+
+<hr>
+
+<h3>Доступные товары: </h3>
+<div th:each="product : ${products}">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+    <br>
+    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <br>
+    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
+    <hr>
+    <form method="post" action="/logout">
+
+        <button type="submit">Выйти из личного кабинета</button>
+    </form>
+</div>
+
+
+</body>
+</html>

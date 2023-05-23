@@ -28,14 +28,14 @@ public class SecurityConfig{
         //http.csrf().disable()
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**").permitAll()
+                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}", "/product/search", "/logout").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().hasAnyRole("USER", "ADMIN")
 //                .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/authentication")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/index", true)
+                .defaultSuccessUrl("/person_account", true)
                 .failureUrl("/authentication?error")
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/authentication");
